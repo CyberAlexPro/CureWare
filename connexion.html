@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f7f7f8;
+            background: url('./images/fond-ia.avif') center/cover no-repeat;
+            overflow: hidden;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(3px);
+            z-index: -1;
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .login-container h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .input-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .input-group label {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .input-group input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #10a37f;
+        }
+
+        .login-btn {
+            padding: 10px 20px;
+            background-color: #10a37f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #0e8465;
+        }
+
+        .signup-link, .forgot-password-link {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .signup-link:hover, .forgot-password-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <div class="login-container">
+        <h2>Connexion à votre compte</h2>
+        <div class="input-group">
+            <label for="username">Identifiant :</label>
+            <input type="text" id="username" name="username" placeholder="Entrez votre identifiant" required>
+        </div>
+        <div class="input-group">
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required>
+        </div>
+        <button class="login-btn" onclick="submitForm()">Se connecter</button>
+
+        <a href="creation-compte.html" class="signup-link">Créer un compte</a>
+        <a href="mot-de-passe-oublie.html" class="forgot-password-link">Mot de passe oublié ?</a>
+    </div>
+
+    <script>
+        function submitForm() {
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+           
+            if (username === 'utilisateur' && password === 'motdepasse') {
+                
+                window.location.href = 'index.html';
+            } else {
+                
+                alert('Identifiant ou mot de passe incorrect.');
+            }
+        }
+    </script>
+</body>
+</html>

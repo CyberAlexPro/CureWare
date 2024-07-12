@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CureWare Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f7f7f8;
+            overflow: hidden;
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('./images/fond-ia.avif') center/cover no-repeat;
+            filter: blur(3px);
+            z-index: -1;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(3px);
+            z-index: -1;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(to bottom right, 
+                rgba(32, 33, 35, 0.8), 
+                rgba(0, 128, 128, 0.8), 
+                rgba(0, 255, 255, 0.8), 
+                rgba(0, 255, 127, 0.8),
+                rgba(255, 165, 0, 0.8),
+                rgba(255, 255, 0, 0.8)
+            );
+            color: white;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar .empty-space {
+            height: 40px; /* Espace vide ajouté au-dessus des boutons */
+        }
+
+        .sidebar.hide-sidebar {
+            width: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .sidebar h2 {
+            margin: 0 0 20px 0;
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(to right, #333333, #666666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(5px);
+        }
+
+        .chat-area {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            max-width: 60%;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-message {
+            background-color: rgba(48, 100, 255, 0.8);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+            margin-right: 0;
+        }
+
+        .ai-message {
+            background-color: rgba(20, 200, 3, 0.8);
+            color: white;
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+            margin-left: 0;
+        }
+
+        .input-area {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        textarea {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            resize: none;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #10a37f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0e8465;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .toggle-sidebar-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px; 
+            background-color: #10a37f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            z-index: 10;
+        }
+
+        .toggle-sidebar-btn:hover {
+            background-color: #0e8465;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="overlay"></div>
+
+    <div class="sidebar">
+        <div class="empty-space"></div> <!-- Espace vide ajouté -->
+        <button onclick="newChat()">Nouveau chat</button>
+        <button onclick="showDetails()">Détails</button>
+        <button onclick="copyLink()">Copier le lien</button>
+        <!-- Ajouter d'autres éléments de menu si nécessaire -->
+    </div>
+
+    <div class="main-content">
+        <div class="chat-area">
+            <div class="message user-message">
+                <p>Bonjour, Je me suis fait hacker.</p>
+            </div>
+            <div class="message ai-message">
+                <p>Bonjour ! Je suis ravi de vous aider. Voici des questions pour déterminer ce qui se passe exactement.</p>
+            </div>
+            <!-- D'autres messages peuvent être ajoutés ici -->
+        </div>
+
+        <div class="input-area">
+            <textarea rows="3" placeholder="Tapez votre message ici..."></textarea>
+            <button>Envoyer</button>
+        </div>
+    </div>
+
+    <div class="navbar">
+       
+    </div>
+
+    <button class="toggle-sidebar-btn" onclick="toggleSidebar()">Masquer la barre latérale</button>
+
+    <script>
+        function newChat() {
+            alert("Nouveau chat démarré !");
+        }
+
+        function showDetails() {
+            alert("les détails... Crée par PaquetasCorp ;-) CureWare est un consultant virtuel utilisant le machine Learning afin de pouvoir assister le client après une cyber attaque et sa PRA (Plan de Reprise d’Activité).");
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(function() {
+                alert("Lien copié dans le presse-papiers.");
+            }, function() {
+                alert("Erreur lors de la copie du lien.");
+            });
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const toggleBtn = document.querySelector('.toggle-sidebar-btn');
+            const navbar = document.querySelector('.navbar');
+
+            sidebar.classList.toggle('hide-sidebar');
+
+            if (sidebar.classList.contains('hide-sidebar')) {
+                toggleBtn.style.top = '20px';
+                toggleBtn.style.left = '20px';
+                navbar.style.display = 'none';
+            } else {
+                toggleBtn.style.top = '';
+                toggleBtn.style.left = '';
+                navbar.style.display = 'flex'; 
+            }
+        }
+    </script>
+</body>
+</html>
